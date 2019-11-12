@@ -3,7 +3,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ProductSitesTableSeeder extends Seeder
+class SitesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -31,7 +31,7 @@ class ProductSitesTableSeeder extends Seeder
                 'name' => strtok($product_site_url, '.'),
                 'url' => $product_site_url,
             ];
-            factory(\App\Models\ProductSite::class)->create($data);
+            factory(\App\Models\Site::class)->create($data);
         }
     }
 }

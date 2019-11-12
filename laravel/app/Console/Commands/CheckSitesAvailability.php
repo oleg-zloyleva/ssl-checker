@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\ProductSite;
+use App\Models\Site;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use \unreal4u\TelegramAPI\HttpClientRequestHandler;
@@ -53,7 +53,7 @@ class CheckSitesAvailability extends Command
     public function handle()
     {
         $siteList = '';
-        foreach (ProductSite::all() as $site){
+        foreach (Site::all() as $site){
             $url = 'https://'.$site->url.'/';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);

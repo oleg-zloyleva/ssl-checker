@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\ProductSites;
 
-use App\Models\ProductSite;
+use App\Models\Site;
 use Tests\AuthEnv;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -14,10 +14,10 @@ class ProductSiteDeleteTest extends TestCase
 
     public function testDeleteProductSite()
     {
-        $tableName = (new ProductSite())->getTable();
+        $tableName = (new Site())->getTable();
 
         $this->createUser();
-        $product_site = ProductSite::inRandomOrder()->first();
+        $product_site = Site::inRandomOrder()->first();
 
         $response = $this->actingAs($this->user)->deleteJson(route('product_sites.destroy', ['product_site' => $product_site]));
 

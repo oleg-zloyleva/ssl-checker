@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\ProductSites;
 
-use App\Models\ProductSite;
+use App\Models\Site;
 use Tests\AuthEnv;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -14,7 +14,7 @@ class ProductSiteCreateTest extends TestCase
 
     public function testCreateProductSite()
     {
-        $tableName = (new ProductSite())->getTable();
+        $tableName = (new Site())->getTable();
 
         $this->createUser();
 

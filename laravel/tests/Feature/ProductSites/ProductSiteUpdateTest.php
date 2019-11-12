@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\ProductSites;
 
-use App\Models\ProductSite;
+use App\Models\Site;
 use Tests\AuthEnv;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -14,10 +14,10 @@ class ProductSiteUpdateTest extends TestCase
 
     public function testUpdateProductSite()
     {
-        $tableName = (new ProductSite())->getTable();
+        $tableName = (new Site())->getTable();
 
         $this->createUser();
-        $productSite = ProductSite::inRandomOrder()->first();
+        $productSite = Site::inRandomOrder()->first();
 
         $data = [
             'product_site-name' => $this->faker->colorName,
