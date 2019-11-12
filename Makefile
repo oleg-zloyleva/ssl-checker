@@ -64,6 +64,8 @@ composer_dump: # composer dump-autoload
 
 fresh: # composer dump-autoload
 	@docker-compose -f ${DOCKER_CONFIG} exec -u www -w /www/laravel app php artisan migrate:fresh --seed
+	@docker-compose -f ${DOCKER_CONFIG} exec -u www -w /www/laravel app php artisan voyager:install
+	@docker-compose -f ${DOCKER_CONFIG} exec -u www -w /www/laravel app php artisan voyager:admin admin@test.com
 
 test: # run all tests
 	@docker-compose -f ${DOCKER_CONFIG} exec -u www -w /www/laravel app php vendor/bin/phpunit

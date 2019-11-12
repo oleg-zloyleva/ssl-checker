@@ -38,7 +38,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - "database:/var/lib/mysql"
+      - "ssl_database:/var/lib/mysql"
     environment:
       - "MYSQL_ROOT_HOST=%"
       - "MYSQL_ROOT_PASSWORD=${DOCKER_PASSWORD}"
@@ -81,4 +81,4 @@ services:
       - app
 
 volumes:
-  database:
+  ssl_database:

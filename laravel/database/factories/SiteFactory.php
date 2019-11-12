@@ -9,5 +9,7 @@ $factory->define(Site::class, function (Faker $faker) {
     return [
         'name' => $faker->domainName,
         'url' => $faker->url,
+        'ssl_last_update' => $faker->date(),
+        'ssl_expires_at' => $faker->date(),
     ];
 });
