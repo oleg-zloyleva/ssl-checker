@@ -8,6 +8,8 @@ use Illuminate\Console\Command;
 use \unreal4u\TelegramAPI\HttpClientRequestHandler;
 use \unreal4u\TelegramAPI\TgLog;
 use \unreal4u\TelegramAPI\Telegram\Methods\SendMessage;
+use Spatie\SslCertificate\SslCertificate;
+
 
 class CheckSitesAvailability extends Command
 {
@@ -28,6 +30,7 @@ class CheckSitesAvailability extends Command
     protected $bot;
     protected $user_id;
     protected $loop;
+
     /**
      * Create a new command instance.
      *
@@ -41,7 +44,7 @@ class CheckSitesAvailability extends Command
         $this->user_id = env('TELEGRAM_USER_ID', '597150795');
         $this->loop = \React\EventLoop\Factory::create();
         $handler = new HttpClientRequestHandler($this->loop);
-        $this->bot =  new TgLog($botKey, $handler);
+        $this->bot = new TgLog($botKey, $handler);
 
     }
 
@@ -53,20 +56,16 @@ class CheckSitesAvailability extends Command
     public function handle()
     {
         $siteList = '';
-        foreach (Site::all() as $site){
-            $url = 'https://'.$site->url.'/';
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1) ;
-
-            if(curl_exec($ch) == false ){
-              dump($url);
-              $siteList .= $url.PHP_EOL;
+        foreach (Site::all() as $site) {
+            $url = 'https://' . $site->url . '/';
+            if($expires = $this->certificate_expires_in($site)){
+                $siteList .= "$url expires in $expires days".PHP_EOL ;
             }
-            curl_close($ch);
+            if( ! $this->checkSiteIsWorking($site)){
+                $siteList .= "$url not working" . PHP_EOL;
+            }
         }
-        if(strlen($siteList)>1){
+        if (strlen($siteList) > 1) {
             $sendMessage = new SendMessage();
             $sendMessage->chat_id = $this->user_id;
             $sendMessage->text = $siteList;
@@ -74,5 +73,40 @@ class CheckSitesAvailability extends Command
             $this->bot->performApiRequest($sendMessage);
             $this->loop->run();
         }
+    }
+
+    private function certificate_expires_in(Site $domain)
+    {
+        try {
+            $certificate = SslCertificate::createForHostName($domain->url);
+            $created = $certificate->validFromDate();
+            $expires = $certificate->expirationDate();
+            if($created && $expires){
+                $domain->ssl_last_update = $created;
+                $domain->ssl_expires_at = $expires;
+                $domain->save();
+            }
+            $expires = $certificate->expirationDate()->diffInDays(); // returns an int
+
+            return $expires < 7 ? $expires : null;
+        }catch (\Exception $e){
+            return -1;
+        }
+        return null;
+    }
+
+    private function checkSiteIsWorking($domain){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $domain->url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        if (curl_exec($ch) == false) {
+            dump($domain->url. " not working");
+            curl_close($ch);
+            return false;
+        }
+        curl_close($ch);
+        return true;
     }
 }

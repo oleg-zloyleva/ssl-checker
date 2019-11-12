@@ -31,7 +31,7 @@ use Illuminate\Http\Request;
 class Site extends Model
 {
     protected $searchable = [ 'name', 'url' ];
-    protected $fillable = [ 'name', 'url' ];
+    protected $fillable = [ 'name', 'url', 'ssl_expires_at' ];
 
     use Search, Pagination;
 

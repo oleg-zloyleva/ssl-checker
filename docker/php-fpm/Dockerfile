@@ -25,6 +25,13 @@ FROM php:7.3-fpm-alpine
 RUN set -xe \
 		&& apk add --no-cache \
 		git
+RUN set -xe \
+        && apk update \
+        && apk upgrade \
+		&& apk add --no-cache \
+		zlib-dev \
+		icu-dev \
+        g++
 
 RUN set -xe \
 		&& apk add --no-cache \
@@ -48,6 +55,7 @@ RUN set -xe \
 			--with-libzip \
 	\
 		&& docker-php-ext-install -j$(nproc) \
+		    intl \
 			gd \
 			bcmath \
 			pdo_mysql \
@@ -63,7 +71,6 @@ RUN set -xe \
 	\
 		&& apk del --no-cache --no-network --purge .make-ext-deps \
 		&& rm -rf /usr/src/* /tmp/*
-
 
 #
 # Install extra packages

@@ -17,6 +17,8 @@ class CreateSitesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('url')->unique();
+            $table->date('ssl_last_update');
+            $table->date('ssl_expires_at');
             $table->timestamps();
         });
     }

@@ -26,6 +26,9 @@ build: # build all dockerfile, if not built yet
 connect_app: # app command line
 	@docker-compose -f ${DOCKER_CONFIG} exec -u www -w /www/laravel app sh
 
+connect_app_root: # app command line
+	@docker-compose -f ${DOCKER_CONFIG} exec -w /www/laravel app sh
+
 connect_node: # node command line
 	@docker-compose -f ${DOCKER_CONFIG} exec -u www -w /www/laravel node sh
 
