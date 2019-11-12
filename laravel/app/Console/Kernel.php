@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('check:ssl')
+            ->timezone('Europe\Kiev')
             ->dailyAt('09:00')
             ->dailyAt('21:00');
     }
