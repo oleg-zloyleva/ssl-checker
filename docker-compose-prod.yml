@@ -39,7 +39,7 @@ services:
     image: mysql/mysql-server:5.7
     restart: unless-stopped
     volumes:
-      - "database:/var/lib/mysql"
+      - "ssl_database:/var/lib/mysql"
     environment:
       - "MYSQL_ROOT_HOST=%"
       - "MYSQL_ROOT_PASSWORD=${DOCKER_PASSWORD}"
@@ -64,4 +64,4 @@ services:
       - app
 
 volumes:
-  database:
+  ssl_database:
