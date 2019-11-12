@@ -28,8 +28,8 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->command('check:ssl')
             ->timezone('Europe\Kiev')
-            ->dailyAt('09:00')
-            ->dailyAt('21:00');
+            ->twiceDaily(9, 21);
+
     }
 
     /**
