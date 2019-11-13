@@ -20,6 +20,7 @@ services:
       - "DOCKER_XDEBUG=${DOCKER_XDEBUG}"
       - "DOCKER_SUPERVISOR=${DOCKER_SUPERVISOR}"
       - "DOCKER_CRON=${DOCKER_CRON}"
+      - "TZ=Europe/Kiev"
 
   nginx:
     image: nginx:1.16-alpine
@@ -45,6 +46,7 @@ services:
       - "MYSQL_DATABASE=${DOCKER_DATABASE}"
       - "MYSQL_USER=${DOCKER_USERNAME}"
       - "MYSQL_PASSWORD=${DOCKER_PASSWORD}"
+      - "TZ=Europe/Kiev"
     command: [
       # "--general_log=1",
       # "--general_log_file=/var/lib/mysql/general_log.log",
@@ -53,32 +55,32 @@ services:
       "--default-storage-engine=innodb",
       "--innodb-file-per-table",
       "--explicit_defaults_for_timestamp=1",
-      "--default-time-zone=+00:00"
+      "--default-time-zone=Europe/Kiev"
     ]
-
-  selenium:
-    image: selenium/standalone-chrome-debug:3.141.59
-    links:
-      - "nginx:${SELENIUM_HOST}"
-    ports:
-      - "4444:4444"
-      - "5900:5900"
-    volumes:
-      - "/dev/shm:/dev/shm"
-
-  beanstalkd:
-    image: schickling/beanstalkd:latest
-    ports:
-      - "11300:11300"
-    depends_on:
-      - app
-
-  mailhog:
-    image: mailhog/mailhog:latest
-    ports:
-      - "8025:8025"
-    depends_on:
-      - app
+#
+#  selenium:
+#    image: selenium/standalone-chrome-debug:3.141.59
+#    links:
+#      - "nginx:${SELENIUM_HOST}"
+#    ports:
+#      - "4444:4444"
+#      - "5900:5900"
+#    volumes:
+#      - "/dev/shm:/dev/shm"
+#
+#  beanstalkd:
+#    image: schickling/beanstalkd:latest
+#    ports:
+#      - "11300:11300"
+#    depends_on:
+#      - app
+#
+#  mailhog:
+#    image: mailhog/mailhog:latest
+#    ports:
+#      - "8025:8025"
+#    depends_on:
+#      - app
 
 volumes:
   ssl_database:

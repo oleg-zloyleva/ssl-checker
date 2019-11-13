@@ -24,7 +24,7 @@ FROM php:7.3-fpm-alpine
 #
 RUN set -xe \
 		&& apk add --no-cache \
-		git
+		git tzdata
 RUN set -xe \
         && apk update \
         && apk upgrade \
@@ -129,6 +129,7 @@ WORKDIR /www
 #
 ENV COMPOSER_VERSION=1.8.5
 ENV COMPOSER_HOME=/home/.composer
+ENV TZ=Europe/Kiev
 
 RUN set -xe \
 		&& echo -e "\n[www]\nuser = $DOCKER_USER\ngroup = $DOCKER_USER" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
@@ -137,3 +138,12 @@ RUN set -xe \
 		&& curl https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=$COMPOSER_VERSION \
         && composer global require hirak/prestissimo \
         && chown -R $DOCKER_USER:$DOCKER_USER $COMPOSER_HOME
+
+RUN set -ex \
+	cp  /usr/share/zoneinfo/$TZ /etc/localtime
+
+RUN set -ex \
+	 echo $TZ > /etc/timezone
+
+RUN set -ex \
+	date
