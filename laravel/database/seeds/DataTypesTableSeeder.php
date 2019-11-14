@@ -52,6 +52,20 @@ class DataTypesTableSeeder extends Seeder
                 'description'           => '',
             ])->save();
         }
+
+        $dataType = $this->dataType('slug', 'sites');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'sites',
+                'display_name_singular' => 'Site',
+                'display_name_plural'   => 'Sites',
+                'icon'                  => 'voyager-eye',
+                'model_name'            => 'App\\Models\\Site',
+                'controller'            => '',
+                'generate_permissions'  => 1,
+                'description'           => '',
+            ])->save();
+        }
     }
 
     /**
