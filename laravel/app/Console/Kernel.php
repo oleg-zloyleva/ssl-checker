@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('check:ssl')
-            ->twiceDaily(7, 19);
+            ->twiceDaily(9, 21);
 
 
     }
