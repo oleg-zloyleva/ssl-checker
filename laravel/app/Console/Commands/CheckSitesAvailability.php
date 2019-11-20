@@ -57,19 +57,21 @@ class CheckSitesAvailability extends Command
     {
         $siteList = '';
         foreach (Site::all() as $site) {
+            //dump($site->url);
             $url = 'https://' . $site->url . '/';
             if($expires = $this->certificate_expires_in($site)){
+                //dump($expires);
                 $siteList .= "$url expires in $expires days".PHP_EOL ;
             }
             if( ! $this->checkSiteIsWorking($site)){
                 $siteList .= "$url not working" . PHP_EOL;
             }
         }
+        //dump($siteList);
         if (strlen($siteList) > 1) {
             $sendMessage = new SendMessage();
             $sendMessage->chat_id = $this->user_id;
             $sendMessage->text = $siteList;
-
             $this->bot->performApiRequest($sendMessage);
             $this->loop->run();
         }
@@ -77,22 +79,28 @@ class CheckSitesAvailability extends Command
 
     private function certificate_expires_in(Site $domain)
     {
+        //dump($domain->url);
         try {
+
             $certificate = SslCertificate::createForHostName($domain->url);
             $created = $certificate->validFromDate();
             $expires = $certificate->expirationDate();
+
+            //dump($domain->url, $created, $expires);
             if($created && $expires){
                 $domain->ssl_last_update = $created;
                 $domain->ssl_expires_at = $expires;
                 $domain->save();
+                //dump($domain);
             }
             $expires = $certificate->expirationDate()->diffInDays(); // returns an int
 
             return $expires < 7 ? $expires : null;
         }catch (\Exception $e){
+            dump($e->getMessage());
             return -1;
         }
-        return null;
+        return -1;
     }
 
     private function checkSiteIsWorking($domain){

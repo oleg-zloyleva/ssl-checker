@@ -3,6 +3,7 @@ services:
 
   node:
     build: docker/nodejs
+    restart: always
     depends_on:
       - app
     volumes:
@@ -10,6 +11,7 @@ services:
 
   app:
     build: docker/php-fpm
+    restart: always
     depends_on:
      - db
     volumes:
@@ -24,6 +26,7 @@ services:
 
   nginx:
     image: nginx:1.16-alpine
+    restart: always
     depends_on:
       - app
     ports:
