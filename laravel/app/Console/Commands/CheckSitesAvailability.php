@@ -106,7 +106,8 @@ class CheckSitesAvailability extends Command
     private function checkSiteIsWorking($domain){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $domain->url);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION,true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
         if (curl_exec($ch) == false) {
