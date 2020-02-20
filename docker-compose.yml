@@ -38,7 +38,6 @@ services:
 
   db:
     image: mysql/mysql-server:5.7
-    restart: unless-stopped
     ports:
       - "3306:3306"
     volumes:
@@ -49,7 +48,6 @@ services:
       - "MYSQL_DATABASE=${DOCKER_DATABASE}"
       - "MYSQL_USER=${DOCKER_USERNAME}"
       - "MYSQL_PASSWORD=${DOCKER_PASSWORD}"
-      - "TZ=Europe/Kiev"
     command: [
       # "--general_log=1",
       # "--general_log_file=/var/lib/mysql/general_log.log",
@@ -58,32 +56,8 @@ services:
       "--default-storage-engine=innodb",
       "--innodb-file-per-table",
       "--explicit_defaults_for_timestamp=1",
-      "--default-time-zone=Europe/Kiev"
+      "--default-time-zone=+02:00"
     ]
-#
-#  selenium:
-#    image: selenium/standalone-chrome-debug:3.141.59
-#    links:
-#      - "nginx:${SELENIUM_HOST}"
-#    ports:
-#      - "4444:4444"
-#      - "5900:5900"
-#    volumes:
-#      - "/dev/shm:/dev/shm"
-#
-#  beanstalkd:
-#    image: schickling/beanstalkd:latest
-#    ports:
-#      - "11300:11300"
-#    depends_on:
-#      - app
-#
-#  mailhog:
-#    image: mailhog/mailhog:latest
-#    ports:
-#      - "8025:8025"
-#    depends_on:
-#      - app
 
 volumes:
   ssl_database:
