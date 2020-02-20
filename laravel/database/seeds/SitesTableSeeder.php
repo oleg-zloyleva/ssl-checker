@@ -33,11 +33,6 @@ class SitesTableSeeder extends Seeder
             'mchlhood.com' => 'mischievouschildhood.com',
             'tipschild.com' => 'tipsforyourschoolchild.com',
             'tngfeatur.com' => 'teenagefeatures.com',
-            'q' => 'datingrecords.com',
-            'w' => 'winyourcrush.com',
-            'e' => 'marriage-space.com',
-            'r' => 'mammasmiracle.com',
-            't' => 'splitsurvival.com',
             'y' => 'bemyfitmotivator.com',
             'u' => 'comeonmarketing.com',
             'i' => 'takeandlove.com',
@@ -45,8 +40,6 @@ class SitesTableSeeder extends Seeder
             'p' => 'yourperfectshoot.com',
             'a' => 'sunnystudio.com.ua',
             'b' => 'topdevs.org',
-            'c' => 'tmminternational.com',
-
         ];
 
         foreach ($descriptors as $url => $product_site_url) {
