@@ -77,7 +77,7 @@ class CheckSites implements ShouldQueue
         //dump($domain->url);
         try {
 
-            $certificate = SslCertificate::createForHostName($domain->url);
+            $certificate = SslCertificate::createForHostName('https://'.$domain->url);
             $created = $certificate->validFromDate();
             $expires = $certificate->expirationDate();
 
