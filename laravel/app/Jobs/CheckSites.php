@@ -77,7 +77,7 @@ class CheckSites implements ShouldQueue
         //dump($domain->url);
         try {
 
-            $certificate = SslCertificate::createForHostName('https://'.$domain->url);
+            $certificate = SslCertificate::createForHostName($domain->url);
             $created = $certificate->validFromDate();
             $expires = $certificate->expirationDate();
 
@@ -100,7 +100,7 @@ class CheckSites implements ShouldQueue
 
     private function checkSiteIsWorking($domain){
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $domain->url);
+        curl_setopt($ch, CURLOPT_URL, 'https://'.$domain->url);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION,true);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
